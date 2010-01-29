@@ -134,7 +134,7 @@
         defaultValue: null,
         prefix: ""
       }, options || {});
-    }
+    };
 
     this.declareWithPrefix = function(prefix, decls) {
       for (var name in decls) {
@@ -142,13 +142,13 @@
         options.prefix = prefix;
         storage.declare(name, options);
       }
-    }
+    };
 
     this.del = function(name) {
       lookup(name, function(decl) {
         handlers[decl.scope].del(decl.prefix + name);
       });
-    }
+    };
 
     this.get = function(name, defaultValue) {
       return lookup(name, function(decl) {
@@ -161,7 +161,7 @@
         }
         return decl.defaultValue;
       });
-    }
+    };
 
     this.set = function(name, value) {
       lookup(name, function(decl) {
@@ -171,7 +171,7 @@
           handlers[decl.scope].set(decl.prefix + name, value);
         }
       });
-    }
+    };
 
     function lookup(name, callback) {
       var decl = storage.decls[name];
@@ -244,7 +244,7 @@
         } else {
           input.removeClass("placeholder");
         }
-      }).triggerHandler("blur")
+      }).triggerHandler("blur");
       input.focus(function() {
         if (input.is(".placeholder")) {
           input.val("").removeClass("placeholder");
@@ -256,7 +256,7 @@
         }
       });
     });
-  }
+  };
 
   $.fn.enableTabInsertion = function(chars) {
     chars = chars || "\t";
@@ -276,7 +276,7 @@
         return false;
       }
     });
-  }
+  };
 
   $(document)
     .ajaxStart(function() { $(this.body).addClass("loading"); })
