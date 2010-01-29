@@ -64,7 +64,7 @@
     };
 
     function createAdmin() {
-      $.showDialog("dialog/_create_admin.html", {
+      $.showDialog("dialog/create_admin.html", {
         submit: function(data, callback) {
           if (!validateUsernameAndPassword(data, callback)) return;
           $.couch.config({
