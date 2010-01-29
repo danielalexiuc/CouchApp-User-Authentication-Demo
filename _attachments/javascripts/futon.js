@@ -7,11 +7,11 @@
         username : username,
         password : password,
         success : function() {
-          $.futon.session.userContext();
+          $.futon.session.userLogin();
           callback();
         },
         error : function(code, error, reason) {
-          $.futon.session.userContext();
+          $.futon.session.userLogin();
           callback({username : "Error logging in: "+reason});
         }
       });
@@ -29,7 +29,7 @@
           }
         },
         error : function(status, error, reason) {
-          $.futon.session.userContext();
+          $.futon.session.userLogin();
           if (error = "conflict") {
             callback({username : "Name '"+username+"' is taken"});
           } else {
@@ -80,7 +80,7 @@
     function logout() {
       $.couch.logout({
         success : function(resp) {
-          $.futon.session.userContext();
+          $.futon.session.userLogin();
         }
       })
     }
@@ -95,14 +95,14 @@
       return false;
     }
 
-    this.setupSidebar = function() {
+    this.setupUserLogin = function() {
       $("#userCtx .login").click(login);
       $("#userCtx .logout").click(logout);
       $("#userCtx .signup").click(signup);
       $("#userCtx .createadmin").click(createAdmin);
     };
 
-    this.userContext = function() {
+    this.userLogin = function() {
       // get users db info?
       $("#userCtx span").hide();
       $.couch.session({
@@ -282,24 +282,12 @@
     .ajaxStart(function() { $(this.body).addClass("loading"); })
     .ajaxStop(function() { $(this.body).removeClass("loading"); });
 
-  $.futon.storage.declare("sidebar", {scope: "cookie", defaultValue: "show"});
   $.futon.storage.declare("recent", {scope: "cookie", defaultValue: ""});
 
   $(function() {
     document.title = "CouchApp User Authentication Demo: " + document.title;
-    $.get("sidebar.html", function(resp) {
-      $("#wrap").append(resp);
-
-      $.futon.session.setupSidebar();
-      $.futon.session.userContext();
-
-      $.couch.info({
-        success: function(info, status) {
-          $("#version").text(info.version);
-        }
-      });
-
-    });
+      $.futon.session.setupUserLogin();
+      $.futon.session.userLogin();
   });
 
 })(jQuery);
