@@ -7,11 +7,11 @@
         username : username,
         password : password,
         success : function() {
-          $.futon.session.sidebar();
+          $.futon.session.userContext();
           callback();
         },
         error : function(code, error, reason) {
-          $.futon.session.sidebar();
+          $.futon.session.userContext();
           callback({username : "Error logging in: "+reason});
         }
       });
@@ -29,7 +29,7 @@
           }
         },
         error : function(status, error, reason) {
-          $.futon.session.sidebar();
+          $.futon.session.userContext();
           if (error = "conflict") {
             callback({username : "Name '"+username+"' is taken"});
           } else {
@@ -80,7 +80,7 @@
     function logout() {
       $.couch.logout({
         success : function(resp) {
-          $.futon.session.sidebar();
+          $.futon.session.userContext();
         }
       })
     }
@@ -102,7 +102,7 @@
       $("#userCtx .createadmin").click(createAdmin);
     };
 
-    this.sidebar = function() {
+    this.userContext = function() {
       // get users db info?
       $("#userCtx span").hide();
       $.couch.session({
@@ -291,7 +291,7 @@
       $("#wrap").append(resp);
 
       $.futon.session.setupSidebar();
-      $.futon.session.sidebar();
+      $.futon.session.userContext();
 
       $.couch.info({
         success: function(info, status) {
